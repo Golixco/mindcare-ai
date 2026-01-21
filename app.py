@@ -16,12 +16,18 @@ SYSTEM_PROMPT = (
 
 @st.cache_resource
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    tokenizer = AutoTokenizer.from_pretrained(
+        MODEL_NAME,
+        token=True
+    )
+
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
+        token=True,
         torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
         device_map="auto"
     )
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     return model, tokenizer, device
 
