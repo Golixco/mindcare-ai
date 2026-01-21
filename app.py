@@ -1,6 +1,16 @@
 import streamlit as st
 import torch
+import os
 from transformers import AutoTokenizer, AutoModelForCausalLM
+
+HF_TOKEN = None
+
+
+if "HUGGINGFACE_HUB_TOKEN" in st.secrets:
+    HF_TOKEN = st.secrets["HUGGINGFACE_HUB_TOKEN"]
+else:
+    
+    HF_TOKEN = os.environ.get("HUGGINGFACE_HUB_TOKEN")
 
 AGENT_NAME = "MindCare"
 MODEL_NAME = "google/gemma-2b-it"
@@ -18,18 +28,19 @@ SYSTEM_PROMPT = (
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained(
         MODEL_NAME,
-        token=True
+        token=HF_TOKEN
     )
 
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        token=True,
+        token=HF_TOKEN,
         torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
         device_map="auto"
     )
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     return model, tokenizer, device
+
 
 model, tokenizer, device = load_model()
 
