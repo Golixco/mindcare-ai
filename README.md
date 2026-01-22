@@ -119,8 +119,7 @@ HUGGINGFACE_HUB_TOKEN="hf_your_token_here"
 
 ## 👤 Author
 
-**Rohan Sonu Bablani**
-GitHub: [https://github.com/Golixco](https://github.com/Golixco)
+**Rohan Sonu Bablani** (Golixco)
 
 --- 
 
